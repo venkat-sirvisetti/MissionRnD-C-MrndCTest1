@@ -32,7 +32,127 @@ struct node{
 	int data;
 	struct node *next;
 };
+int length(struct node *ptr)
+{
+	struct node *temp = ptr;
+	int count = 0;
+	while(temp->next!=ptr){
+		ptr = ptr->next;
+		count++;
+	} 
+	return count+1;
+}
 int merge_circularlists(struct node **head1, struct node **head2){
 	//Returns Length of merged Sorted circular SLL and also points *head1 to final SLL .
-	return -1;
+	//if (head1 == NULL || head2 == NULL)return -1;
+	struct node *ptr1 = *head1, *ptr2 = *head2, *t1 = *head1, *t2 = *head2;
+	struct node *temp1 = NULL, *temp_t = NULL;
+	int first = 0, second = 0;
+	if (*head1 == NULL||*head2 == NULL)
+		return -1;
+	while (1)
+	{
+		if ((first != 0 && t1 == ptr1) || (second != 0 && t2 == ptr2))
+			break;
+		if (t1->data < t2->data)
+		{
+			if (temp1 == NULL)
+			{
+				temp1 = t1;
+				temp_t = temp1;
+				t1 = t1->next;
+				temp_t->next = NULL;
+			}
+			else
+			{
+				temp_t->next = t1;
+				t1 = t1->next;
+				temp_t = temp_t->next;
+				temp_t->next = NULL;
+			}
+			first = 1;
+		}
+		else if (t1->data > t2->data)
+		{
+			if (temp1 == NULL)
+			{
+				temp1 = t2;
+				temp_t = temp1;
+				t2 = t2->next;
+				temp_t->next = NULL;
+			}
+			else
+			{
+				temp_t->next = t2;
+				t2 = t2->next;
+				temp_t = temp_t->next;
+				temp_t->next = NULL;
+			}
+			second = 1;
+		}
+		else
+		{
+			if (temp1 == NULL)
+			{
+				temp1 = t2;
+				temp_t = temp1;
+				t2 = t2->next;
+				temp_t->next = t1;
+				t1 = t1->next;
+				temp_t = temp_t->next;
+				temp_t->next = NULL;
+				
+			}
+			else
+			{
+				temp_t->next = t2;
+				t2 = t2->next;
+				temp_t = temp_t->next;
+				temp_t->next = t1;
+				t1 = t1->next;
+				temp_t = temp_t->next;
+				temp_t->next = NULL;
+			}
+			first = second = 1;
+		}
+	} 
+	while (t2 != ptr2)
+	{
+			if (temp1 == NULL)
+			{
+				temp1 = t2;
+				temp_t = temp1;
+				t2 = t2->next;
+				temp_t->next = NULL;
+			}
+			else
+			{
+				temp_t->next = t2;
+				t2 = t2->next;
+				temp_t = temp_t->next;
+				temp_t->next = NULL;
+			}
+
+	}
+	while (t1 != ptr1)
+	{
+		if (temp1 == NULL)
+		{
+			temp1 = t1;
+			temp_t = temp1;
+			t1 = t1->next;
+			temp_t->next = NULL;
+		}
+		else
+		{
+			temp_t->next = t1;
+			t1 = t1->next;
+			temp_t = temp_t->next;
+			temp_t->next = NULL;
+		}
+	}
+	temp_t->next = temp1;
+	*head1 = temp_t;
+	return length(temp1);
+	
 }

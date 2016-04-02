@@ -33,5 +33,60 @@ Difficulty : Medium
 
 int * find_sequences(int *arr, int len){
 	//Return final array which has 6indexes [AP1_S,AP1_E,AP2_S,AP2_E,GP1_S,GP2_E]
-	return NULL;
+	if (arr == NULL || len == 0)
+		return NULL;
+	int i = 0;
+	int first = 0;
+	int *final = (int *)malloc(sizeof(int) * 6);
+	for (i = 0; i < 6; i++)
+	{
+		final[i] = 0;
+	}
+	for (i = 0; i <= len - 3; i++)
+	{
+		if (abs(arr[i] - arr[i+1]) == abs(arr[i + 1] - arr[i + 2]))
+		{	
+			first = i;
+			break;
+	}
+	}
+	for (i = i + 3; i < len; i++)
+	{
+		if (abs(arr[i - 1] - arr[i - 2]) != abs(arr[i] - arr[i - 1]))
+			break;
+	}
+	final[0] = first;
+	final[1] = i - 1;
+	i --;
+	for (; i <= len - 3; i++)
+	{
+		if (abs(arr[i] - arr[i + 1]) == abs(arr[i + 1] - arr[i + 2]))
+		{
+			first = i;
+			break;
+		}
+	}
+		for (i = i + 3; i < len; i++)
+		{
+			if (abs(arr[i - 1] - arr[i - 2]) != abs(arr[i] - arr[i - 1]))
+				break;
+		}
+		final[2] = first;
+		final[3] = i - 1;
+		for (i = 0; i <= len - 3; i++)
+		{
+			if (arr[i + 1] * arr[i + 1] == arr[i] * arr[i + 2])
+			{
+				first = i;
+				break;
+			}
+		}
+		for (i = i + 3; i < len; i++)
+		{
+			if (arr[i - 1] * arr[i - 1] != arr[i] - arr[i - 2])
+				break;
+		}
+		final[4] = first;
+		final[5] = i - 1;
+	return final;
 }
