@@ -25,9 +25,8 @@ Merged Sorted Circular SLL .
 
 Difficulty : Medium
 */
-#include <stdlib.h>
-#include <stdio.h>
-
+#include<stdio.h>
+#include<stdlib.h>
 struct node{
 	int data;
 	struct node *next;
@@ -37,7 +36,7 @@ int length(struct node *ptr)
 	struct node *temp = ptr;
 	int count = 0;
 	while(temp->next!=ptr){
-		ptr = ptr->next;
+		temp = temp->next;
 		count++;
 	} 
 	return count+1;
@@ -152,7 +151,7 @@ int merge_circularlists(struct node **head1, struct node **head2){
 		}
 	}
 	temp_t->next = temp1;
-	*head1 = temp_t;
+	*head1 = temp1;
 	return length(temp1);
 	
 }
